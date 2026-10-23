@@ -1,5 +1,7 @@
 import os
 import subprocess
+import time
+from operator import attrgetter
 
 from processo import Processo
 #importando a classe
@@ -41,19 +43,44 @@ def shortest_job_first(lista_processos):
 
         lista_prontas = []
 
+        print("tempo ",end="")
+        for processo in lista_processos:
+            print(f"P{processo.id} ",end="")
+
+        print("\n")
+
         while cont_tempo < tempo_max:
             
             for processo in lista_processos:
                 if processo.criacao == cont_tempo:
                     lista_prontas.append(processo)
 
-            ##encontrar o processo com menor tempo
-            menor_duracao_pronto = menor_processo(lista_prontas)
-            
+            # ordena a lista de prontas com base no menor tempo de execução de tarefa
+            lista_prontas.sort(key=attrgetter('duracao'))
+
+            #executa a tarefa até acabar (cooperatividade)
+            lista_prontas[0].executando = True # pega o primeiro elemento da lista prontas (ordenada por menor tarefa)                                               # e executa
+            duracao_dinamica = lista_prontas[0].duracao
+
+            print(f"{cont_tempo}-{cont_tempo+1} ",end="")
             for i in range(len(lista_processos)):
-                print(f"P{i+1} |",end="")
-    
-            cont_tempo+=1       
+                if lista_processos[i] in lista_prontas and lista_processos[i].executando == True:
+                    print("# ",end="")
+                elif lista_processos[i] in lista_prontas:
+                    print("- ",end="")
+                else:
+                    print(" ",end="")
+            print("") # para ir para a proxima linha
+                
+            cont_tempo+=1
+            duracao_dinamica-=1
+            
+            if duracao_dinamica == 0:
+                lista_prontas[0].executando = False #para a execução da tarefa
+                lista_prontas.pop(0) #remove da fila de prontas
+            
+            time.sleep(1)
+
 ##############################################  Main  #############################################################################
 numero_processos = int(input("Entre com o total de processos: "))
 lista_processos = []
