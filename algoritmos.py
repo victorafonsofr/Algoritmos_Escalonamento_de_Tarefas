@@ -62,7 +62,7 @@ def shortest_job_first(lista_processos):
             lista_prontas[0].executando = True # pega o primeiro elemento da lista prontas (ordenada por menor tarefa)                                               # e executa
             duracao_dinamica = lista_prontas[0].duracao
 
-            print(f"{cont_tempo}-{cont_tempo+1} ",end="")
+            print(f"{cont_tempo}-{cont_tempo+1}\t",end="")
             for i in range(len(lista_processos)):
                 if lista_processos[i] in lista_prontas and lista_processos[i].executando == True:
                     print("# ",end="")
