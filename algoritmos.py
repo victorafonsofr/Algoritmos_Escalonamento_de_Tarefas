@@ -17,21 +17,6 @@ def duracao_max(lista_processos):
 
     return duracao
 
-# pega o processo de menor tempo de duracao
-def menor_processo(lista_processos):
-    if not lista_processos:
-        print("lista vazia!")
-    else:
-        menor_duracao = lista_processos[0].duracao   
-        processo_menor_duracao = lista_processos[0]
-
-        for processo in lista_processos:
-            if processo.duracao < menor_duracao:
-                processo_menor_duracao = processo
-                menor_duracao = processo.duracao 
-
-        return processo_menor_duracao  
-
 # algoritmo sjf
 def shortest_job_first(lista_processos):
 
